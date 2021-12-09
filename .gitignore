@@ -1,0 +1,12 @@
+## ignore File ##
+
+*.pdb
+*.lib
+*.idb
+
+## ignore Folder ##
+
+x64/
+Debug/
+.vs/
+stage/
