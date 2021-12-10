@@ -1,3 +1,6 @@
+//결과
+//성능4 실패
+
 #include <string>
 #include <vector>
 #include <functional>
@@ -14,30 +17,16 @@ bool MakePhoneBookByLength(std::vector<string> out[], std::vector<string> src);
 bool solution(vector<string> phone_book) {
     bool answer = true;
 
-    //전제 조건
-    //phone_book의 길이는 1 이상 1,000,000 이하
-    //각 번호의 길이는 1 ~ 20
-    //중복없다
-
-    //방법1 
-    //1. 벡터의 전화번호들을 길이에 따라 분류
-    //2. 중복이 없으므로 동일 길이를 검사할 필요가 없다.
-    //3. 자신보다 긴 길이에 대해서 모두 검사
-    //4. 하나라도 걸릴 경우, return false;
-
-
-    //1. 벡터의 번호들을 길이에 따라 분류
-    //20개 배열 준비 -> 문제 각 배열벌로 필연적으로 길이가 다를수 밖에 없다
-    vector<string> vPhoneBookByLength[20];
+    vector<string> vHashTable[20];
 
     for (int i = 0; i < 20; i++) {
         int size = 10 ^ i;
         if (size > MAX_PHONEBOOK_SIZE) size = MAX_PHONEBOOK_SIZE;
-        vPhoneBookByLength[i].reserve(size);
+        vHashTable[i].reserve(size);
     }
 
     //각길이로 보낸다.
-    bool bResult = MakePhoneBookByLength(vPhoneBookByLength, phone_book);
+    bool bResult = MakePhoneBookByLength(vHashTable, phone_book);
 
 
     //3. 자신보다 긴 길이에 대해 검사. 
@@ -46,10 +35,10 @@ bool solution(vector<string> phone_book) {
         if (answer == false) break;
 
         vector<string>::iterator it;
-        if (vPhoneBookByLength[i].size() == 0)
+        if (vHashTable[i].size() == 0)
             continue;   //없으면 검사할 필요가 없다.
 
-        for (it = vPhoneBookByLength[i].begin(); it != vPhoneBookByLength[i].end(); it++) {
+        for (it = vHashTable[i].begin(); it != vHashTable[i].end(); it++) {
             if (answer == false) break;
 
             string prefix = *it;
@@ -60,7 +49,7 @@ bool solution(vector<string> phone_book) {
             for (int j = i + 1; j < 20; j++) {
                 if (answer == false) break;
                 vector<string>::iterator itLongString;
-                for (itLongString = vPhoneBookByLength[j].begin(); itLongString != vPhoneBookByLength[j].end(); itLongString++) {
+                for (itLongString = vHashTable[j].begin(); itLongString != vHashTable[j].end(); itLongString++) {
                     string longStr = *itLongString;
                     bool bIsPrefix = CheckPrefix(hashValue, prefix, longStr);
 

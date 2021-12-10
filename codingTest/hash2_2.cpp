@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <memory.h>
 
 
 //상황
@@ -28,6 +29,8 @@ struct stHASH {
 
 typedef vector<stHASH*> HashTable_t;
 
+
+
 bool solution(vector<string> phone_book);
 
 //해시테이블 생성
@@ -47,17 +50,21 @@ bool FindPrefix(HashTable_t hashTable[MAX_PHONE_SIZE]);
 bool solution(vector<string> phone_book) {
     bool answer = true;
     bool bIsFind = false;
-    HashTable_t table[20];
+    HashTable_t g_table[20];
     stHASH* pHashArray = nullptr;
-    MakeHashTable(table, pHashArray, phone_book);
+
+    MakeHashTable(g_table, pHashArray, phone_book);
+    
+    if (pHashArray == nullptr) goto lb_return;
 
     //찾으면 true
-    bIsFind = FindPrefix(table);
+    bIsFind = FindPrefix(g_table);
     if (bIsFind == true)
         answer = false;
 
-    FreeHashTable(pHashArray, table);
+    FreeHashTable(pHashArray, g_table);
 
+lb_return:
     return answer;
 }
 
@@ -95,10 +102,9 @@ bool MakeHashTable(HashTable_t out[MAX_PHONE_SIZE], stHASH*& pOutArray, vector<s
     }
     else
     {
-        //메모리 할당 성공
-        //memset(pArray, 0, mallocSize);
+        memset(pArray, 0, mallocSize);
     }
-
+    
     index = 0;
     for (it = origin.begin(); it != origin.end(); it++)
     {
