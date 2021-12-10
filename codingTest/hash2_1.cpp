@@ -6,24 +6,14 @@
 
 using namespace std;
 
-//성능 똥망
 
-struct stHASH
-{
-    size_t index;
-    size_t lengthOfPrefix;    //해쉬를 만들때 사용한 프리픽스 길이
-    size_t hashValue;
-};
-
-typedef vector<stHASH> HASH_TABLE;
-
-bool MakeHash(size_t& out, string str, size_t length = 0);
-bool CheckPrefix(vector<string> phone_book, stHASH& _pPrefix, stHASH& _pNumber);
-bool MakeHashTable(HASH_TABLE out[], std::vector<string> src);
+bool MakeHash(int& out, string str, int length = 0);
+bool CheckPrefix(int hashValue, string prefix, string longNumber);
+bool MakePhoneBookByLength(std::vector<string> out[], std::vector<string> src);
 
 bool solution(vector<string> phone_book) {
     bool answer = true;
-    
+
     //전제 조건
     //phone_book의 길이는 1 이상 1,000,000 이하
     //각 번호의 길이는 1 ~ 20
@@ -38,7 +28,7 @@ bool solution(vector<string> phone_book) {
 
     //1. 벡터의 번호들을 길이에 따라 분류
     //20개 배열 준비 -> 문제 각 배열벌로 필연적으로 길이가 다를수 밖에 없다
-    HASH_TABLE vPhoneBookByLength[20];
+    vector<string> vPhoneBookByLength[20];
 
     for (int i = 0; i < 20; i++) {
         int size = 10 ^ i;
@@ -47,7 +37,7 @@ bool solution(vector<string> phone_book) {
     }
 
     //각길이로 보낸다.
-    bool bResult = MakeHashTable(vPhoneBookByLength, phone_book);
+    bool bResult = MakePhoneBookByLength(vPhoneBookByLength, phone_book);
 
 
     //3. 자신보다 긴 길이에 대해 검사. 
@@ -55,27 +45,24 @@ bool solution(vector<string> phone_book) {
     {
         if (answer == false) break;
 
-        HASH_TABLE::iterator it;
+        vector<string>::iterator it;
         if (vPhoneBookByLength[i].size() == 0)
             continue;   //없으면 검사할 필요가 없다.
 
         for (it = vPhoneBookByLength[i].begin(); it != vPhoneBookByLength[i].end(); it++) {
             if (answer == false) break;
 
-            stHASH pPrefix = *it;
-            const string& prefix = phone_book.at(pPrefix.index);
-
-            MakeHash(pPrefix.hashValue, prefix);
-            pPrefix.lengthOfPrefix = prefix.size();
+            string prefix = *it;
+            int hashValue = 0;
+            MakeHash(hashValue, prefix);
 
             //자신의 다음 대상 부터 차례로 검사
             for (int j = i + 1; j < 20; j++) {
                 if (answer == false) break;
-                HASH_TABLE::iterator itLongString;
+                vector<string>::iterator itLongString;
                 for (itLongString = vPhoneBookByLength[j].begin(); itLongString != vPhoneBookByLength[j].end(); itLongString++) {
-                    stHASH pLongStr = (*itLongString);
-                    
-                    bool bIsPrefix = CheckPrefix(phone_book, pPrefix, pLongStr);
+                    string longStr = *itLongString;
+                    bool bIsPrefix = CheckPrefix(hashValue, prefix, longStr);
 
                     if (bIsPrefix == true)
                     {
@@ -91,12 +78,14 @@ bool solution(vector<string> phone_book) {
     return answer;
 }
 
-bool MakeHash(size_t& out, string str, size_t length) {
+bool MakeHash(int& out, string str, int length) {
     bool bResult = false;
-    size_t lengthOfStr = str.size();
-    size_t lengthOfprefix = length;
-    size_t sum = 0;
+    int lengthOfStr = str.size();
+    int sum = 0;
+    int lengthOfprefix = length;
     string subString;
+    //char* pStr = nullptr;
+
 
     //문자열 길이가 0이면 만들필요없다.
     if (lengthOfStr == 0)
@@ -114,7 +103,13 @@ bool MakeHash(size_t& out, string str, size_t length) {
 
     sum = hash_string(subString);
 
-  
+    /* pStr = (char*)str.c_str();
+     for (int i = 0; i < lengthOfprefix; i++) {
+
+         sum += pStr[i];
+     }
+    */
+
     bResult = true;
     out = sum;
 
@@ -122,57 +117,33 @@ lb_return:
     return bResult;
 }
 
-bool CheckPrefix(vector<string> phone_book, stHASH& _pPrefix, stHASH& _pNumber) {
+bool CheckPrefix(int hashValue, string prefix, string number) {
     bool bResult = false;
-    stHASH pPrefix = _pPrefix;
-    stHASH pNumber = _pNumber;
-    string prefix;
-    string number;
-
-    size_t sizeOfPhoneBook = phone_book.size();
-    int iIndexOfPrefix = pPrefix.index;
-    int iIndexOfNumber = pNumber.index;
-
-    prefix = phone_book.at(iIndexOfPrefix);
-    number = phone_book.at(iIndexOfNumber);
-
-    //인덱스 유혀성 검사 -prefix
-    if (sizeOfPhoneBook < iIndexOfPrefix)
-        goto lb_return;
-
-    //인덱스 유효성 검사 - number
-    if (sizeOfPhoneBook < iIndexOfNumber)
-        goto lb_return;
+    int numberHash = 0;
+    int lengthOfPrefix = prefix.size();
+    int lengthOfNumber = number.size();
+    //char* pPrefix = nullptr;
+    //char* pNumber = nullptr;
 
     //접두어 길이가 0이면 검사할 필요가 없다.
-    if (prefix.size() == 0)
+    if (lengthOfPrefix == 0)
         goto lb_return;
 
     //접두어 길이가 더 길 수 없다.
-    if (number.size() < prefix.size())
+    if (lengthOfNumber < lengthOfPrefix)
         goto lb_return;
 
+    //해쉬 생성 실패
+    MakeHash(numberHash, number, lengthOfPrefix);
 
-    //접두어 해쉬값이 유효한지 검사
-    if (pPrefix.lengthOfPrefix != pPrefix.lengthOfPrefix) {
-        pPrefix.lengthOfPrefix = prefix.size();
-        MakeHash(pPrefix.hashValue, prefix, pPrefix.lengthOfPrefix);
-    }
-
-    //긴전화번호의 해쉬값이 유효한지 검사. 유효하지 않으면 재생성
-    if (pNumber.lengthOfPrefix != pPrefix.lengthOfPrefix) {
-        pNumber.lengthOfPrefix = prefix.size();
-        MakeHash(pNumber.hashValue, number, pNumber.lengthOfPrefix);
-    }
-    
-    if (pNumber.hashValue == pPrefix.hashValue) {
+    if (numberHash == hashValue) {
         //두값이 같다면 상세 검사
-        
-        int comp = number.compare(0, pPrefix.lengthOfPrefix, prefix);
+
+        int comp = number.compare(0, prefix.size(), prefix);
         if (comp == 0) {
             bResult = true;
         }
-        
+
         /*
         pPrefix = (char*)prefix.c_str();
         pNumber = (char*)number.c_str();
@@ -192,34 +163,23 @@ lb_return:
 
 }
 
-bool MakeHashTable(HASH_TABLE phoneBook[], vector<string> src) {
+bool MakePhoneBookByLength(vector<string> phoneBook[], vector<string> src) {
 
     bool bResult = false;
-    int index = 0;
     vector<string>::iterator it;
-    
+
     //Check parameter
     if (phoneBook == nullptr)
         goto lb_result;
-    
-    if (src.size() == 0) 
+
+    if (src.size() == 0)
         goto lb_result;
 
     //sort by phoneNumber size;
-    
     for (it = src.begin(); it != src.end(); it++) {
-        string* phoneNum = &(*(it + 0));
+        string phoneNum = (*it);
         size_t phoneNumLength = (*it).size();
-        
-        stHASH pHash;
-        //pHash->data = phoneNum;
-        pHash.hashValue = 0;
-        pHash.lengthOfPrefix = 0;
-        pHash.index = index;
-
-        index++;
-        //MakeHash(hashValue, phoneNum, static_cast<int>(phoneNumLength) );
-        phoneBook[phoneNumLength - 1].push_back(pHash);
+        phoneBook[phoneNumLength - 1].push_back(phoneNum);
     }
 
     bResult = true;
