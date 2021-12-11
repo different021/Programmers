@@ -21,16 +21,19 @@
     <ClCompile Include="..\src\hash2.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="hash2_1.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="hash2_2.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="hash2_3.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\hash2_4.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hash2_1.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hash2_2.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hash2_3.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hash2_unorderedset.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
