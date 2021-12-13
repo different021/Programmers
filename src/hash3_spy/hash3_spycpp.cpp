@@ -20,6 +20,8 @@
 
 #include <string>
 #include <vector>
+#include <unordered_set>
+#include <unordered_map>
 
 using namespace std;
 
@@ -29,7 +31,6 @@ int solution(vector<vector<string>> clothes) {
     int answer = 0;
     size_t count = 0;
     bool bSuccess = GetCombinationCount(count, clothes);
-    //함수 성공 여부체크 
     
     answer = static_cast<int>(count);
 
@@ -40,8 +41,10 @@ int solution(vector<vector<string>> clothes) {
 //각 행의 갯수를 구한
 bool GetCombinationCount(size_t& out, vector<vector<string>>& clothes) {
     bool bResult = false;
+    unordered_multiset<string> clothPart;
+    unordered_set<string> kindOfPart;
     vector<vector<string>>::iterator itPart;
-    vector<string>::iterator itCloth;
+    unordered_set<string>::iterator itr_set;
     size_t countOfCombination = 1;
 
     if (clothes.size() == 0) goto lb_return;
@@ -49,10 +52,14 @@ bool GetCombinationCount(size_t& out, vector<vector<string>>& clothes) {
     for (itPart = clothes.begin(); itPart != clothes.end(); itPart++) {
         vector<string>* vCloth = &(*itPart);
         
-        size_t size = vCloth->size();
-        if (size == 2)
-            return 5;
-        countOfCombination *= (size + 1);
+        string& part = (vCloth->at(1));
+        kindOfPart.insert(part);
+        clothPart.insert(part);
+    }
+
+    for (itr_set = kindOfPart.begin(); itr_set != kindOfPart.end(); itr_set++) {
+        string pStr = (*itr_set);
+        countOfCombination *= (clothPart.count(pStr) + 1);
     }
 
     out = countOfCombination - 1;
