@@ -74,7 +74,7 @@ vector<int> solution(vector<string> genres, vector<int> plays) {
     if (genresSize != playsSzie)
     {
         //잘못된 파라미터. 둘은 같아야만 한다.
-        //에러처리
+        //예외처리
     }
     
     //장르별 플레이획수 & 랭킹 업데이트
@@ -89,7 +89,11 @@ vector<int> solution(vector<string> genres, vector<int> plays) {
     }
     
     //앨범생성
-    UpdateAlbum(answer, totalPlayedOfGenres);
+    bool bResult = UpdateAlbum(answer, totalPlayedOfGenres);
+    if (bResult == false) {
+        //앨범생성 실패
+        //예외처리
+    }
 
     return answer;
 }
@@ -159,7 +163,7 @@ void swapSong(stSong& song1, stSong& song2) {
 }
 
 bool comp(const myData& a, const myData& b) {
-    return (a.second.totalPlayed < b.second.totalPlayed);;
+    return (a.second.totalPlayed > b.second.totalPlayed);;
 }
 
 bool UpdateAlbum(vector<int>& out, map<string, stRecord>& src) {
@@ -173,10 +177,10 @@ bool UpdateAlbum(vector<int>& out, map<string, stRecord>& src) {
         int id1 = it.second.songs[0].id;
         int id2 = it.second.songs[1].id;
         
-        if(id1 < 0)
+        if(id1  > -1)
             out.push_back(id1);
 
-        if (id2 < 0)
+        if (id2 > -1)
             out.push_back(id2);
     }
 
@@ -190,6 +194,11 @@ int main()
     vector<string> genres{ "classic", "pop", "classic", "classic", "pop" };
     vector<int> plays{ 500, 600, 150, 800, 2500 };
     vector<int> result = solution(genres, plays);
+    
+    printf("PlayList : \n");
+    for (auto it : result) {
+        printf("%d\n", it);
+    }
 
     return 0;
 }
