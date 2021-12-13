@@ -98,6 +98,7 @@ vector<int> solution(vector<string> genres, vector<int> plays) {
     return answer;
 }
 
+//총 플레이 카운트 업데이트
 bool UpdatePlayedCount(map<string, stRecord>& totalPlayedMap, string genre, int id, int played) {
     bool bResult = false;
     stRecord* pRecord = nullptr;
@@ -123,6 +124,9 @@ lb_return:
     return bResult;
 }
 
+// 새로 들어온 음악과 기존의 기록들을 비교
+// 비교(2위 vs newValue)
+// 비교(1위 vs 2위) -> 결과에 따라 스왑
 bool UpdateRank(stRecord* _pRecord, stSong* _pChallenger) {
     bool bResult = false;
     stRecord* pRecord   = _pRecord;
@@ -166,12 +170,17 @@ bool comp(const myData& a, const myData& b) {
     return (a.second.totalPlayed > b.second.totalPlayed);;
 }
 
+//함수 수행 과정 요약
+//1. vector에 map을 넣고 value 기준으로 정렬
+//2. id값 리턴
 bool UpdateAlbum(vector<int>& out, map<string, stRecord>& src) {
     bool bResult = false;
 
+    //벡터에 넣고 정렬
     vector<myData> vec( src.begin(), src.end() );
     sort(vec.begin(), vec.end(), comp);
 
+    //많이 플레이된 장르 순으로 id값 리턴
     for ( auto it : vec) {
         //write in out 
         int id1 = it.second.songs[0].id;
