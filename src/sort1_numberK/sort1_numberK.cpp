@@ -35,12 +35,17 @@ using namespace std;
 
 bool comp(const int& a, const int& b);
 bool FindKByCommand(vector<int>& out, vector<int> src, vector<vector<int>>& commands);
+bool CheckInvaildCommand(vector<int>* pCommand);
 
 vector<int> solution(vector<int> array, vector<vector<int>> commands) {
     vector<int> answer;    
     answer.reserve(COMMAND_MAX);
 
     bool bIsFind = FindKByCommand(answer, array, commands);
+    if (bIsFind = false)
+    {
+        //실패
+    }
 
     return answer;
 }
@@ -61,7 +66,8 @@ bool FindKByCommand(vector<int>& out, vector<int> src, vector<vector<int>>& comm
         temp.clear();   //임시 벡터 초기화
         vector<int>* pCommand = &(*itCommand);
 
-        //command 유효성 검사 추가
+        bool bCheck =CheckInvaildCommand(pCommand);
+        if (bCheck == false) goto lb_return;
 
         int i = pCommand->at(0) - 1;
         int j = pCommand->at(1);
@@ -78,6 +84,30 @@ bool FindKByCommand(vector<int>& out, vector<int> src, vector<vector<int>>& comm
     }
 
     bResult = true;
+
+lb_return:
+    return bResult;
+}
+
+bool CheckInvaildCommand(vector<int>* pCommand) {
+    bool bResult = false;
+    int i = -1;
+    int j = -1;
+    int k = -1;
+    
+    if (pCommand == nullptr) goto lb_return;
+    if (pCommand->size() != 3)  goto lb_return;
+
+    i = pCommand->at(0);
+    j = pCommand->at(1);
+    k = pCommand->at(2);
+
+    if (i > j) goto lb_return;
+    if ((j - i + 1) < k) goto lb_return;
+
+    bResult = true;
+
+lb_return:
     return bResult;
 }
 
