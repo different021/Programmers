@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash3_spy", "hash3_spy\hash
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash4_playList", "hash4_playList\hash4_playList.vcxproj", "{C97D7D1C-EFCC-4D25-B2FA-5320FD76F746}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sort1_numberK", "sort1_numberK\sort1_numberK.vcxproj", "{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{C97D7D1C-EFCC-4D25-B2FA-5320FD76F746}.Release|x64.Build.0 = Release|x64
 		{C97D7D1C-EFCC-4D25-B2FA-5320FD76F746}.Release|x86.ActiveCfg = Release|Win32
 		{C97D7D1C-EFCC-4D25-B2FA-5320FD76F746}.Release|x86.Build.0 = Release|Win32
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Debug|x64.ActiveCfg = Debug|x64
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Debug|x64.Build.0 = Debug|x64
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Debug|x86.ActiveCfg = Debug|Win32
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Debug|x86.Build.0 = Debug|Win32
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Release|x64.ActiveCfg = Release|x64
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Release|x64.Build.0 = Release|x64
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Release|x86.ActiveCfg = Release|Win32
+		{3FAA5BB1-3127-4D68-B0BA-FD4BC2C3227C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
