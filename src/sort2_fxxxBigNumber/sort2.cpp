@@ -51,11 +51,19 @@ string solution(vector<int> numbers) {
     size_t stringSize = 0;
 
     sort(numbers.begin(), numbers.end(), comp2);
+    
+    if (numbers.at(0) == 0) {
+        //첫번째 수가 0이면 모두 0이다.
+        answer += to_string(0);
+        goto lb_return;
+    }
+    
     for (auto it : numbers) {
         int num = it;
         answer += to_string(num);
     }
 
+lb_return:
     return answer;
 }
 
