@@ -1,6 +1,4 @@
-
 /*
-
     과학자의 생산성과 영향력을 나타내는 지표 H-Index
 
     n편의 논문 중, h번 이상 인용된 논문이 h개라고 할때,
@@ -13,7 +11,6 @@
 
     [return]
     int
-
 
 
     ex)
@@ -36,6 +33,9 @@ int solution(vector<int> citations) {
     int answer = 0;
 
     bool bSuccess = GetHindex(answer, citations);
+    if (bSuccess == false) {
+        //함수 실패 처리
+    }
 
     return answer;
 }
@@ -51,7 +51,8 @@ bool comp(const int& a, const int& b)
     1. 인용횟수가 많은 순서로 정렬
     2. 가장 많이 인용된 횟수를 시작으로 인용된 횟수의 인덱스를 확인
     3. 크거나 같으면 리턴
-
+    4. 인용횟수가 논문 갯수 보다 많을경우 마지막 인덱스를 검사 
+    5. true일 경우, 논문 갯수 리턴(h는 n보다 클 수 없다.)
 */
 bool  GetHindex(int& out, vector<int>& citations) {
     bool bResult = false;
@@ -65,6 +66,7 @@ bool  GetHindex(int& out, vector<int>& citations) {
     //인용횟수가 많은 순으로 정렬
     sort(citations.begin(), citations.end(), comp);
 
+    //최대 인용 횟수부터 검증
     i = *(citations.begin());
     for (; i > 0; i-- ) 
     {
@@ -84,8 +86,8 @@ bool  GetHindex(int& out, vector<int>& citations) {
             {
                 //n을 넘을 수 없다.
                 hIndex = citaSize;
+                break;
             }
-            break;
         }
     }
 
