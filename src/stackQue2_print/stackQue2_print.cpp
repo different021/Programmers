@@ -12,14 +12,8 @@
     [1, 1, 9, 1, 1, 1]	0	        5
 
     빈약한 설명의 문제
-    문제의 의도가 정확하게 설명되지 않는다.
-    첫번째 샘플의 A를 1, B를 2로만 바꾸어 놓아도 어느정도 의도가 설명이 될텐데.
-    
     빈약한 설명과 배려가 부족한 샘플 제시로
     출제자에게 -100점 드립니다. 
-
-    [아래 샘플로 설명이 안되는 경우]
-    가장 큰 우선 순위를 갖는 인덱스를  i 
 
     solution([2, 4, 8, 2, 9, 3, 3], 2) return 2 
 
@@ -64,75 +58,149 @@
 
 using namespace std;
 
+struct stDocument
+{
+    int priority;
+    int location;
+
+    stDocument(int prio, int loc)
+    {
+        priority = prio;
+        location = loc;
+    }
+};
+
+bool MakeDocumentVector(vector<stDocument>& out, vector<int>& srcPriority);
+bool SortDocumentByPriority(queue<stDocument>& out, vector<stDocument>& src);
+bool GetTurnOfDocument(int& outTurn, queue<stDocument>& queDocuemnt, int indexInOriginVector);
 
 int solution(vector<int> priorities, int location) {
     int answer = 0;
-    vector<int>& inputVect = priorities;
-    queue<int> resultQue;
+    bool bSuccess = false;
+    vector<stDocument> vecDocument;
+    queue<stDocument> resultQue;
 
-    size_t size = inputVect.size();
-    size_t targetIndex = 0;
-
-    int priority = 0;
-    int cnt = 0;
+    size_t size = priorities.size();
 
     //[Start] Check Parameter
-    if (size < 1)
-    {
-        //벡터에 데이터가 없는 경우
-        goto lb_return;
-    }
-    if (location < 0)
-    {
-        //잘못된 인덱스를 입력한 경우
-        goto lb_return;
-    }
-    //[Done] Check Parameter()
-    targetIndex = static_cast<int>(location);
+    if (size < 1)       goto lb_return;     //벡터에 데이터가 없는 경우
+    if (location < 0)   goto lb_return;     //잘못된 인덱스를 입력한 경우
 
-    for (vector<int>::iterator it = inputVect.begin(); it != inputVect.end(); )
+    bSuccess = MakeDocumentVector(vecDocument, priorities);
+    if (bSuccess == false)
     {
-        int prio = *priorities.begin();
-        it = inputVect.erase( inputVect.begin() );
-        vector<int>::iterator itInner;
-        for ( itInner = inputVect.begin(); itInner != inputVect.end(); itInner++)
-        {
-            if (prio < *itInner)
-            {
-                inputVect.push_back(prio);
-                targetIndex--;
-                break;
-            }
-        }
-
-        if ((itInner) == inputVect.end())
-        {
-            resultQue.push(prio);
-        }
-    }
-
-
-    printf("Que Test \n");
-    while (resultQue.empty() != true)
-    {
-        printf("%d\n", resultQue.front());
-        resultQue.pop();
+        //실패 처리
     }
     
+    //정렬하여 resultQue로 보냄 -> 사실 보낼 필요없다.
+    bSuccess = SortDocumentByPriority(resultQue, vecDocument);
+    if (bSuccess == false)
+    {
+        //실패 처리
+    }
+    
+    bSuccess = GetTurnOfDocument(answer, resultQue, location);
+    if(bSuccess == false)
+    {
+        //실패처리
+    }
 
 lb_return:
     return answer;
 }
 
 
+bool MakeDocumentVector(vector<stDocument>& _out, vector<int>& _srcPriority)
+{
+    bool bResult = false;
+    vector<stDocument>& out = _out;
+    vector<int>& srcPriority = _srcPriority;
+    size_t size = srcPriority.size();
+    
+    if (size == 0) goto lb_return;
+
+    out.reserve(size);      
+
+    for (auto it : srcPriority)
+    {
+        static int i = 0;
+        out.push_back(stDocument(it, i));
+        i++;
+    }
+
+    bResult = true;
+
+lb_return:
+    return bResult;
+}
+
+bool SortDocumentByPriority(queue<stDocument>& out, vector<stDocument>& src)
+{
+    bool bResult = false;
+    vector<stDocument>& vecDocument = src;
+    queue<stDocument>& resultQue = out;
+
+    //[Check Parameter]
+    if (vecDocument.size() == 0) goto lb_return;
+
+    for (vector<stDocument>::iterator it = vecDocument.begin(); it != vecDocument.end(); )
+    {
+        stDocument curDoc = *(vecDocument.begin());
+        it = vecDocument.erase(vecDocument.begin());
+
+        //int max = *max_element(priorities.begin(), priorities.end()); -> 범위내 최대값, 아래 로직 대체 가능할듯?
+
+        vector<stDocument>::iterator itInner;
+        for (itInner = vecDocument.begin(); itInner != vecDocument.end(); itInner++)
+        {
+            if (curDoc.priority < itInner->priority)
+            {
+                vecDocument.push_back(curDoc);
+                break;
+            }
+        }
+
+        if ((itInner) == vecDocument.end())
+        {
+            resultQue.push(curDoc);
+        }
+    }
+
+lb_return:
+    return bResult;
+}
 
 
+bool GetTurnOfDocument(int& outTurn, queue<stDocument>& queDocuemnt, int indexInOriginVector)
+{
+    bool bResult = false;
+    int& turn = outTurn;
+    int location = indexInOriginVector;
+    queue<stDocument>& que = queDocuemnt;
+    
+    if (location < 0) goto lb_return;
+    if (que.size() == 0) goto lb_return;
 
+    while (que.empty() != true)
+    {
+        turn++;
+        stDocument print = que.front();
+        que.pop();
+
+        if (print.location == location)
+        {
+            break;
+        }
+    }
+
+lb_return:
+    return bResult;
+}
 
 int main()
 {
-    /*vector<int> priorities = { 2, 1, 3, 2 };
-    int location = 2;*/
+    //vector<int> priorities = { 2, 1, 3, 2 };
+    //int location = 2;
 
     vector<int> priorities = { 1, 1, 9, 1, 1, 1 };
     int location = 0;
