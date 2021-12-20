@@ -91,11 +91,16 @@ struct stBRIDGE
     vector<int> progress;           //다리위 트럭들의 진행도
 };
 
+//bridge class
 bool BridgeInitialize(stBRIDGE& bridge, int bridge_length, int weight);     //브릿지 초기화
 bool BridgePush(stBRIDGE& bridge, int Truckweight);                         //브릿지를 지나가는 차량 추가
 bool BridgePop(stBRIDGE& bridge, int* pOut = nullptr);
 bool BridgeIncreaseProgress(stBRIDGE& bridge);
 bool BridgeCheckComplete(stBRIDGE& bridge);
+
+//solution class
+bool SolutionPassBridge(stBRIDGE& bridge, vector<int>* pPassed = nullptr);
+bool SolutionEnterBridge(stBRIDGE& bridge, vector<int>& waiting);
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
     int answer = 0;
@@ -108,46 +113,25 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
 
     do
     {
-        vector<int>::iterator it;
-        int value = 0;
-        int passedTruckWeight = 0;
-
-        
         if (timeCounter > REQUEST_TIME_OUT)
         {
             //논리적 도달 불가능한 카운터에 도달
             break;
         }
 
-        //진행도 체크 후 다리에서 제거
-        bool bPop  = BridgePop(bridge, &passedTruckWeight);
-        if (bPop == true)
-        {
-            //제거된 트럭 완료된 리스트에 추가 -> 이 문제에서는 안해도 된다. -> 성능 문제시 제거
-            passedTruck.push_back(passedTruckWeight);
-        }
+        //1. 트럭이 다리를 통과함
+        SolutionPassBridge(bridge, &passedTruck);
+        
+        //2. 트럭이 다리에 진입함
+        SolutionEnterBridge(bridge, truck_weights);
 
-        //대기 차량이 남아있을 경우 다리에 진입
-        if (truck_weights.size() > 0)
-        {
-            it = truck_weights.begin();
-            value = *it;
-            passedTruckWeight = 0;
-       
-            bool bPush = BridgePush(bridge, value);
-            if (bPush == true)
-            {
-                //트럭 추가(다리에)
-                //대기중인 차량 제거
-                it = truck_weights.erase(it);
-            }
-        }
-
-        //진행도 증가
+        //3. 진행도 증가
         BridgeIncreaseProgress(bridge);
 
+        //4. 걸린 시간 (return value)
         timeCounter++;
-    } while (!BridgeCheckComplete(bridge) );
+
+    } while ( !BridgeCheckComplete(bridge) );
 
     //return value
     answer = timeCounter;
@@ -255,6 +239,49 @@ lb_return:
     return bComplete;
 }
 
+bool SolutionPassBridge(stBRIDGE& bridge, vector<int>* pPassed )
+{
+    int passedTruckWeight = 0;
+
+    //진행도 체크 후 다리에서 제거
+    bool bPop = BridgePop(bridge, &passedTruckWeight);
+    if (bPop == true)
+    {
+        //제거된 트럭 완료된 리스트에 추가 -> 이 문제에서는 안해도 된다. -> 성능 문제시 제거
+        if (pPassed != nullptr)
+        {
+            pPassed->push_back(passedTruckWeight);
+        }
+    }
+
+    return bPop;
+}
+
+bool SolutionEnterBridge(stBRIDGE& bridge, vector<int>& waiting)
+{
+    bool bResult = false;
+    vector<int>::iterator it;
+    int value = 0;
+
+    //대기 차량이 남아있을 경우 다리에 진입
+    if (waiting.size() > 0)
+    {
+        it = waiting.begin();
+        value = *it;
+
+        bool bPush = BridgePush(bridge, value);
+        if (bPush == true)
+        {
+            //트럭 추가(다리에)
+            //대기중인 차량 제거
+            it = waiting.erase(it);
+        }
+
+        bResult = true;
+    }
+
+    return bResult;
+}
 
 int main()
 {
@@ -263,15 +290,15 @@ int main()
     //vector<int> truck_weights = { 7, 4, 5, 6 };
     ////return 8;
     
-    //int bridge_length = 100;
-    //int weigth = 100;
-    //vector<int> truck_weights = { 10,10,10,10,10,10,10,10,10,10 };
-    ////return 110;
-    
     int bridge_length = 100;
     int weigth = 100;
-    vector<int> truck_weights = { 10 };
-    //return 101;
+    vector<int> truck_weights = { 10,10,10,10,10,10,10,10,10,10 };
+    //return 110;
+    
+    //int bridge_length = 100;
+    //int weigth = 100;
+    //vector<int> truck_weights = { 10 };
+    ////return 101;
 
     int result = solution(bridge_length, weigth, truck_weights);
 
