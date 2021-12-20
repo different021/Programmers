@@ -99,12 +99,12 @@ bool BridgeCheckComplete(stBRIDGE& bridge);
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
     int answer = 0;
-    vector<int> passedTruck;
+    vector<int> passedTruck;    //성능 문제시 제거
     stBRIDGE bridge;
     int timeCounter = 0;
     
-    BridgeInitialize(bridge, bridge_length, weight);
-    passedTruck.reserve(truck_weights.size());
+    BridgeInitialize(bridge, bridge_length, weight);    //다리 변수 초기화
+    passedTruck.reserve(truck_weights.size());          //성능 문제시 제거
 
     do
     {
@@ -119,23 +119,21 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
             break;
         }
 
+        //진행도 체크 후 다리에서 제거
+        bool bPop  = BridgePop(bridge, &passedTruckWeight);
+        if (bPop == true)
+        {
+            //제거된 트럭 완료된 리스트에 추가 -> 이 문제에서는 안해도 된다. -> 성능 문제시 제거
+            passedTruck.push_back(passedTruckWeight);
+        }
+
+        //대기 차량이 남아있을 경우 다리에 진입
         if (truck_weights.size() > 0)
         {
             it = truck_weights.begin();
             value = *it;
             passedTruckWeight = 0;
-        }
-        
-
-        bool bPop  = BridgePop(bridge, &passedTruckWeight);
-        if (bPop == true)
-        {
-            //트럭 제거(다리에)
-            passedTruck.push_back(passedTruckWeight);
-        }
-
-        if (value > 0)
-        {
+       
             bool bPush = BridgePush(bridge, value);
             if (bPush == true)
             {
@@ -145,6 +143,7 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
             }
         }
 
+        //진행도 증가
         BridgeIncreaseProgress(bridge);
 
         timeCounter++;
@@ -205,7 +204,7 @@ bool BridgePop(stBRIDGE& bridge, int* pOut)
 
     if (progress < bridge.bridge_length) goto lb_return;    //첫번째 차가 아직 끝에 도달하지 못했다.
 
-    bridge.curWeight -= weigth;                 //차량 무게 만큼 제거
+    bridge.curWeight -= weigth;                       //차량 무게 만큼 제거
     bridge.passingTruck.pop();
     bridge.progress.erase( bridge.progress.begin() ); //times도 제거해야된다.
 
@@ -231,7 +230,7 @@ lb_return:
 bool BridgeIncreaseProgress(stBRIDGE& bridge)
 {
     bool bExistPassed = false;
-    if (bridge.progress.empty()) goto lb_return;   //비어있으니, 지나간 차량은 없다.
+    if (bridge.progress.empty()) goto lb_return;
 
     for (auto& it : bridge.progress)
     {
