@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stackQue2_print", "stackQue
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stackQue3_truck", "stackQue3_truck\stackQue3_truck.vcxproj", "{5403FDA9-2937-41CD-B003-F8590C0DF055}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stackQue4_price", "stackQue4_price\stackQue4_price.vcxproj", "{394B1CA3-BAB5-492E-A48C-192D1762AEA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{5403FDA9-2937-41CD-B003-F8590C0DF055}.Release|x64.Build.0 = Release|x64
 		{5403FDA9-2937-41CD-B003-F8590C0DF055}.Release|x86.ActiveCfg = Release|Win32
 		{5403FDA9-2937-41CD-B003-F8590C0DF055}.Release|x86.Build.0 = Release|Win32
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Debug|x64.ActiveCfg = Debug|x64
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Debug|x64.Build.0 = Debug|x64
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Debug|x86.ActiveCfg = Debug|Win32
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Debug|x86.Build.0 = Debug|Win32
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Release|x64.ActiveCfg = Release|x64
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Release|x64.Build.0 = Release|x64
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Release|x86.ActiveCfg = Release|Win32
+		{394B1CA3-BAB5-492E-A48C-192D1762AEA5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -60,10 +60,10 @@
 
 
     [weak point]
-    It will be slow,
-    when so many trucks in vector
+    It may be slow,
+    when so many data in vector.
 
-    Because this logic will count every sigle time count
+    Because this logic will count every sigle time.
 */
 
 #include <string>
@@ -119,13 +119,13 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
             break;
         }
 
-        //1. 트럭이 다리를 통과함
+        //1. 다리 위의 트럭이 다리를 통과
         SolutionPassBridge(bridge, &passedTruck);
         
-        //2. 트럭이 다리에 진입함
+        //2. 대기 중인 트럭이 다리에 진입
         SolutionEnterBridge(bridge, truck_weights);
 
-        //3. 진행도 증가
+        //3. 진행도 증가(다리 위의 트럭)
         BridgeIncreaseProgress(bridge);
 
         //4. 걸린 시간 (return value)
