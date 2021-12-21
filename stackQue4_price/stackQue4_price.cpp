@@ -8,7 +8,8 @@
     [1, 2, 3, 2, 3]	    [4, 3, 1, 1, 0]
     
     [설명] 
-    산 뒤 몇초 뒤에 가격이 떨어졌는가. (산 가격보다 떨어진 시점 구하기)
+    산 시점으로부터 최초 손해인 시점은 몇 초 뒤인가? (산 가격보다 떨어진 시점은 몇초 뒤인가? -> 안떨어 졌을 수도 있다.)
+    이런 개념이 주식에 없는데. 주식에 갖다 끼워 맞추니까 이해가 더 안되었다.
 
     [parameter]
     vector<int> 각 초별 가격
@@ -22,26 +23,30 @@
 
     [메모]
     출제자는 국어 능력에 문제가 있다.
-    
-
-    간단하게 사고 몇초뒤 떨어지는가.
-
+    문제를 바로 이해하는데 오랜 시간이 걸렸다.
+    테스트 케이스를 더 주던지. 
+    주석 추가와 보다 효율적인 방법 연구가 필요하다. 
+    하지만 출제자가 선사한 빅엿으로 여기까지만 한다.
+    할 마음이 안난다. 이런 간단한 문제를 몇시간 동안 국어분석했다. 그냥 하지말껄.
 */
 
 /*
     [solution]
-    1. 일단 que에 때려 박는다.
-    2. 첫번째를 값을 pop()
-    3. 값을 하나씩 pop()
-    4. 이전 값이 첫번째 값보다 크면 cnt++;
-    2~3 반복
+    1. 첫번째 값과 다른 모든 값을 비교 (index가 낮은 순)
+    3. 첫번째 값보다 낮은 경우 브레이크
+    4. 카운트 기록 (return용 벡터에)
+    5. 다음 요소로 이동 (index++)
+
+    1 ~ 5 반복
+
+    it doesn't use stack or que,
+    and has low effiency.
+
 */
 
 
 #include <string>
 #include <vector>
-#include <queue>
-#include <algorithm>
 
 using namespace std;
 
@@ -49,7 +54,6 @@ bool CountUpper(vector<int> prices);
 
 vector<int> solution(vector<int> prices) {
     vector<int> answer;
-    queue<int> que;
     
     int count = 0;
     for (vector<int>::iterator it = prices.begin(); it != prices.end(); it++)
@@ -75,23 +79,6 @@ vector<int> solution(vector<int> prices) {
     }
 
     return answer;
-}
-
-bool CountUpper(vector<int> prices)
-{
-    bool bResult = false;
-    vector<int> answer;
-    for (vector<int>::iterator it = prices.begin(); it != prices.end(); it++)
-    {
-        int count = 0;
-        int current = *it;
-
-        count = count_if(it + 1, prices.end(), [current](int val) { return current <= val; });
-
-        answer.push_back(count);
-    }
-
-    return bResult;
 }
 
 
