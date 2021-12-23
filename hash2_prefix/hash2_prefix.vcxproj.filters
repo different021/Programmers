@@ -13,16 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{12774ba2-2f95-4fbc-93de-c493c3886fee}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\hash2_phonebook\hash2.cpp">
-      <Filter>src</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\src\hash2_phonebook\hash2_unorderedset.cpp">
-      <Filter>src</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
