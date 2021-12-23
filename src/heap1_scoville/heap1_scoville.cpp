@@ -134,8 +134,9 @@ bool ScovilleInitialize(ScovilleQueue& out, vector<int>& src)
 
     for (auto& it : src)
     {
-        int scov = it;
-        out.push(scov);
+        //int scov = it;
+        //out.push(scove);  
+        out.push(it);       //미세하게 더 빠르다.
     }
 
     bResult = true;
