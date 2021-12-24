@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash2_prefix", "hash2_prefi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap1_scoville", "heap1_scoville\heap1_scoville.vcxproj", "{23734C64-A477-4A33-9E07-F5AEF0234201}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap2_diskControl", "heap2_diskControl\heap2_diskControl.vcxproj", "{0058BDA5-5A31-408F-B38A-F705ACDEC974}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{23734C64-A477-4A33-9E07-F5AEF0234201}.Release|x64.Build.0 = Release|x64
 		{23734C64-A477-4A33-9E07-F5AEF0234201}.Release|x86.ActiveCfg = Release|Win32
 		{23734C64-A477-4A33-9E07-F5AEF0234201}.Release|x86.Build.0 = Release|Win32
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Debug|x64.ActiveCfg = Debug|x64
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Debug|x64.Build.0 = Debug|x64
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Debug|x86.ActiveCfg = Debug|Win32
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Debug|x86.Build.0 = Debug|Win32
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x64.ActiveCfg = Release|x64
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x64.Build.0 = Release|x64
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x86.ActiveCfg = Release|Win32
+		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
