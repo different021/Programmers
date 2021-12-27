@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap1_scoville", "heap1_sco
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap2_diskControl", "heap2_diskControl\heap2_diskControl.vcxproj", "{0058BDA5-5A31-408F-B38A-F705ACDEC974}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap3_doublePriorityQueue", "heap3_doublePriorityQueue\heap3_doublePriorityQueue.vcxproj", "{B63AE7DD-D5F3-499D-AEC0-C23871966841}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -131,6 +133,14 @@ Global
 		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x64.Build.0 = Release|x64
 		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x86.ActiveCfg = Release|Win32
 		{0058BDA5-5A31-408F-B38A-F705ACDEC974}.Release|x86.Build.0 = Release|Win32
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Debug|x64.ActiveCfg = Debug|x64
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Debug|x64.Build.0 = Debug|x64
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Debug|x86.ActiveCfg = Debug|Win32
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Debug|x86.Build.0 = Debug|Win32
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Release|x64.ActiveCfg = Release|x64
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Release|x64.Build.0 = Release|x64
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Release|x86.ActiveCfg = Release|Win32
+		{B63AE7DD-D5F3-499D-AEC0-C23871966841}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
