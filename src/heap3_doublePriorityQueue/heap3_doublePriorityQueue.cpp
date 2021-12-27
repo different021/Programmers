@@ -174,7 +174,7 @@ bool cOperationDeque::inputOperation(string _input)
     string& input = _input;
     stOPERATION op;
 
-    //1. 유효성 검사 -> 성공시 명령어 제작
+    //1. 유효성 검사 -> 성공시 2. 명령어 생성
     bSuccess = checkOperation(op,input);
     if (bSuccess == false) goto lb_return;
 
