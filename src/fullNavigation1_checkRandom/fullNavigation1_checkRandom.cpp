@@ -55,6 +55,9 @@ public:
     int GetId() const;
 };
 
+//등수 비교 함수
+//등수는 내림차순
+//동점시, id 오름 차순
 bool compStdentByGrade(const cStudentNoMathInLife& stu1, const cStudentNoMathInLife& stu2)
 {
     bool bResult = false;
@@ -81,7 +84,7 @@ bool compStdentByGrade(const cStudentNoMathInLife& stu1, const cStudentNoMathInL
 //solution
 vector<int> solution(vector<int> answers);
 bool solutionInitailize(vector<cStudentNoMathInLife>& students, vector<vector<int>>& patterns);
-bool solutionCheckStudentsSheet(vector<cStudentNoMathInLife>& students, vector<int>& answers);
+bool solutionGrading(vector<cStudentNoMathInLife>& students, vector<int>& answers);
 bool solutionSortByGrade(vector<cStudentNoMathInLife>& students);
 bool solutionGetFristPlaces(vector<int>& out, vector<cStudentNoMathInLife>& students);
 
@@ -103,16 +106,16 @@ vector<int> solution(vector<int> answers) {
 
 
     //2. 정답 체크
-    bSuccess = solutionCheckStudentsSheet(students, answers);
+    bSuccess = solutionGrading(students, answers);
     if (bSuccess == false) { /*예외처리*/ }
 
 
-    //성적이 높은순으로 정렬
+    //3. 성적순 정렬(내림차순)
     bSuccess = solutionSortByGrade(students);
     if (bSuccess == false) { /*예외처리*/ }
 
 
-    //1등자들 리턴
+    //4. 리턴(1등, 동점시 복수 리턴)
     bSuccess = solutionGetFristPlaces(firstPlace, students);
     if (bSuccess == false) { /*예외처리*/ }
 
@@ -120,6 +123,14 @@ vector<int> solution(vector<int> answers) {
     return firstPlace;
 }
 
+/*
+    [파라미터]
+    students(output) : 결과물
+    patterns(input)  : 학색들의 답안 작성 패턴
+
+    [리턴]
+    함수 성공 여부
+*/
 bool solutionInitailize(vector<cStudentNoMathInLife>& students, vector<vector<int>>& patterns)
 {
     bool bResult = false;
@@ -140,21 +151,42 @@ lb_return:
     return bResult;
 }
 
-bool solutionCheckStudentsSheet(vector<cStudentNoMathInLife>& students, vector<int>& patterns)
+/*
+    입력된 답안지로 채점
+    
+    [파라미터]
+    students(output)    : 점수와 체점여부(bool)값 변경
+    answers             : 정답 비교를 통해 Grading
+
+    [리턴]
+    함수 성공여부;
+    1. 파라미터 유효성
+    2. 개별 학생 채점 실패 검사
+
+*/
+bool solutionGrading(vector<cStudentNoMathInLife>& _students, vector<int>& _answers)
 {
     bool bResult = true;
-
-    if (patterns.size() == 0)
+    vector< cStudentNoMathInLife>& students = _students;
+    vector<int>& answers = _answers;
+    
+    if (students.size() == 0)
     {
         bResult = false;
         goto lb_return;
     }
 
-    students.reserve(patterns.size());
+    if (answers.size() == 0)
+    {
+        bResult = false;
+        goto lb_return;
+    }
+
+    students.reserve(answers.size());
 
     for (auto& it : students)
     {
-        bool bSuccess = it.Check(patterns);
+        bool bSuccess = it.Check(answers);
         if (bSuccess == false)
         {
             //체점 실패?
@@ -167,6 +199,10 @@ lb_return:
     return bResult;
 }
 
+/*
+    점수순으로 정렬(내림차순)
+    동점시, id값 오름차순
+*/
 bool solutionSortByGrade(vector<cStudentNoMathInLife>& students)
 {
     bool bResult = false;
@@ -181,6 +217,19 @@ lb_return:
     return bResult;
 }
 
+/*
+    [주의]
+    등수별로 정렬부터 할 것.
+    
+    [파라미터]
+    out(output)             : 1등의 id값 리턴(동점시 다수 리턴)
+    students(input)         : 점수가 기록되어 있다.
+
+    [리턴]
+    함수 성공여부
+    1. 학생이 없으면 실패
+
+*/
 bool solutionGetFristPlaces(vector<int>& out, vector<cStudentNoMathInLife>& students)
 {
     bool bResult = false;
