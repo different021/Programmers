@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\heap3_doublePriorityQueue\heap3_doublePriorityQueue.cpp">
+    <ClCompile Include="..\src\fullNavigation2_makePrimeNumber\fullNavigation2_makePrimeNumber.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
