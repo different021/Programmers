@@ -18,8 +18,5 @@
     <ClCompile Include="..\src\fullNavigation2_makePrimeNumber\fullNavigation2_makePrimeNumber.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\fullNavigation2_makePrimeNumber\fullNavigation2_premutation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
