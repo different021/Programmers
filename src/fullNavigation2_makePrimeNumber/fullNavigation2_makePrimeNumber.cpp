@@ -45,23 +45,29 @@
     [검증된 파라미터]
     1. src는 1자리 정수가 string형태로 저장되어 있다ㅏ.
     2. src는 오름차순으로 정렬되어 있다.
-
-
-    src[i]
+        
+    next_permutation 함수를 이용해서 품. 편리하네.
+    주의할 점은 오름차순으로 정렬되어 있어야한다.
+    높은 순으로 이동하며 정렬하기 때문에 정렬되어 있지 않다면 중간부터 계산
 
 */
+
 /*
     [소수 검사]
+    bool CheckPrimeNumber(int input);
+
+    input을 2 ~ input의 제곱근 까지의 수로 나누어 확인
+    
+
 
 */
 
 
 #include <string>
 #include <vector>
-#include <queue>
-#include <stack>
 #include <map>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 
@@ -89,7 +95,7 @@ int solution(string numbers) {
     if (bSuccess == false) {/* 잘못된 문자열 감지 */ };
 
     //오름차순 정렬 -> 빼도 될듯.
-    sort(strNumbers.begin(), strNumbers.end(), CompSingleDigit);
+    sort(strNumbers.begin(), strNumbers.end(), less <string>());
 
     //3.생성가능한 모든 수 생성.
     //int test = atoi("0011"); -> test = 11 -> 쌉가능 편리하네....
@@ -119,7 +125,6 @@ int solution(string numbers) {
         true  -> 저장
         false -> bResult = fale, (주의! 함수가 멈추지는 않는다)
     4. 1~3 반복(문자열에 전체 검사후 종료)
-
 */
 bool SolutionCutEverySingleChar(vector<string>& _out, string& _input)
 {
@@ -143,7 +148,6 @@ bool SolutionCutEverySingleChar(vector<string>& _out, string& _input)
             //한번 실패해도 문자열이 반복되기 때문에 별도의 체크 변수가 있다.
             bResult = false;
         }
-
     }
 
     return bResult;
@@ -163,144 +167,107 @@ string func1(map<int, int>& out, vector<string>& src)
     return result;
 }
 
-map<string, int> g_test;
 
-void makeRecursive(deque<string>& out, queue<string> str, int left)
-{
-    queue<string> standby = str;
-    
-    if (left != 0)
-    {
-        while ( !standby.empty() )
-        {
-            string temp = standby.front();
-            standby.pop();
-            out.push_back(temp);
 
-            left--;
+/*
+    [주의]
+    파라미터 vector<string> src의 멤버는
+        1. 한자리  
+        2. 양의 정수 { 0 ~ 9 }
+    를 충종하는 집합이여야 한다.
+        ex) { "1", "2", "3" } 같은 등등
 
-            makeRecursive(out, standby, left);
-        }
-    }
-    else
-    {
-        //문자열 다 나열함.
-        string last;
-
-        //빌때까지
-        while ( !out.empty() )
-        {
-            last += out.front();
-            out.pop_front();
-            
-        }
-
-        g_test.insert( make_pair(last, atoi(last.c_str())) );
-    }
-}
-
-//
-//
+*/
 bool SolutionMakeNumberBySingleDigit(map<int, int>& out, vector<string>& src)
 {
     bool bResult = false;
-    queue<string> que;
-    deque<string> temp;
+    map<int, int>& intgerMap = out;
 
-    for (auto& it : src)
-    {
-        que.push(it);
-    }
+    do{
+        string sum;
+        for (auto& it : src)
+        {
+            sum += it;
+            int value = atoi(sum.c_str());               
+            intgerMap.insert(make_pair(value, value) );
+        }
+    } while (next_permutation(src.begin(), src.end()));
 
-    makeRecursive(temp, que, que.size());
-
+    bResult = true;
     return bResult;
-/*
-    //1뽑
-    //func1(out, src);
-    for (int i = 0; i < src.size(); i++)
-    {
-        string temp1;
-        temp1 = src[i];
-        int iTemp = atoi(temp1.c_str());
-        out.insert(make_pair(iTemp, iTemp));
-    }
-
-    //2뽑
-    for (int j = 0; j < src.size(); j++)
-    {
-        for (int i = 0; i < src.size(); i++)
-        {
-            if (i == j) continue;
-            string temp = src[i] + src[j];
-            int iTemp = atoi(temp.c_str());
-            out.insert(make_pair(iTemp, iTemp));
-        }
-    }
-    
-    //3뽑
-    for (int k = 0; k < src.size(); k++)
-    {
-        for (int j = 0; j < src.size(); j++)
-        {
-            for (int i = 0; i < src.size(); i++)
-            {
-                if (i == j) continue;
-                if (j == k) continue;
-                string temp = src[i] + src[j] + src[k];
-                int iTemp = atoi(temp.c_str());
-                out.insert(make_pair(iTemp, iTemp));
-            }
-        }
-    }
-
-    //4뽑    
-    for (int l = 0; l < src.size(); l++)
-    {
-        string temp4 = src[l];
-        for (int k = 0; k < src.size(); k++)
-        {
-            string temp3 = temp4 + src[k];
-            if (k == l) continue;
-            for (int j = 0; j < src.size(); j++)
-            {
-                string temp2 = temp3 + src[j];
-                if (j == k) continue;
-                for (int i = 0; i < src.size(); i++)
-                {
-                    if (i == j) continue;
-                    string temp1 = temp2 + src[i];
-                    //temp = src[i] + src[j] + src[k] + src[l];
-                    int iTemp = atoi(temp1.c_str());
-                    out.insert(make_pair(iTemp, iTemp));
-                }
-            }
-        }
-    }
-
-    for (int i = 0; i < src.size(); i++)
-    {
-
-    }
-    */
-
     
 }
 
-//생성된 숫자중 프라임 넘버는 몇개일까요?
-//성능 향샹을 의해서는
-//
+/*
+    [parameter]
+
+
+    [output]
+    Prime Number 의 갯수
+
+    [return]
+    return false When src.size() == 0
+
+*/
 bool SolutionCountPrimeNumber(int& out, map<int, int>& src)
 {
     bool bResult = false;
+    map<int, int>& integerMap = src;
+    int primeCount = 0;
 
+    if (src.size() == 0) goto lb_return;
+
+    for (auto& it : integerMap)
+    {
+        int value = it.first;
+        
+        if (value == 0) continue;
+        if (value == 1) continue;
+
+        bool isPrime = CheckPrimeNumber(value);
+        if (isPrime == true)
+        {
+            primeCount++;
+        }
+    }
+
+    out = primeCount;
+
+    bResult = true;
+
+lb_return:
     return bResult;
 }
 
 
-//CheckPrimeNumber();
+/*
+    입력받은 수가 prime Number 인지 확인
+    2 ~ sqrt(input) 까지 수로 input을 나눠본다.
+    수학 이론상 제곱근까지만 나눠보면 prime number라고 한다.
+*/
+bool CheckPrimeNumber(int input)
+{
+    bool bResult = true;
+    int square = static_cast<int>(sqrt(input));
 
+    //2부터 시작
+    for (int i = 2; i < square; i++)
+    {
+        int remainder = input % i;
+        if (remainder == 0)
+        {
+            //나누어 떨어지는 수가 있다면 프라임 넘버가 아니다.
+            bResult = false;
+            break;
+        }
+    }
 
+    return bResult;
+}
+
+//해당 문자가 정수로 전환 가능한지 체크한다. 
+//해당 솔루션에서는 음수를 넣으면 안될 것이나
+//다른 솔루션에서는 음수를 사용할 수도 있으니 막지는 않았다.
 bool CheckStrToDigit(const char& singleDigit)
 {
     bool bResult = false;
@@ -339,8 +306,12 @@ bool CompSingleDigit(const string& a, const string& b)
 
 int main()
 {
-    //return 5 { 7 , 17k 71, 107, 701 } 
-    string numbers = "1307";
+    //return 5 { 7 , 17, 71, 107, 701 } 
+    //string numbers = "1307";
+
+    string numbers = "17";
+
+    //string numbers = "002";
 
     int result = solution(numbers);
 
