@@ -50,18 +50,23 @@
     노란색의 높이에 따라 가로가 정해진다.
 
     (고정)            (1부터 차례대로 대입)
-    yT = yWidth * yHeight
-    yW = yTotal / yHeight
+    yTotal = yWidth * yHeight
+    yWidth = yTotal / yHeight
     
 
     [갈색] 
     bTotal = (yWidth + 2 + yHeight) * 2
     bTotal = (yTotal/yHeight + 2 + yHeight) * 2
 
+    //높이에 대해 정리해서 2차방정식을 만들어서 풀수 있다.
+    //문제는 완전 탐색을 요구. 노랑이 1부터 쭉 찾아가는 방식을 채택했다.
+
     [solution]
-    1. 노란색 높이를 1부터 차례로 계산
-    2. 노란색이 높이로 나누어지지 않으면 continue
-    3. 갈색을 노란색의 식으로 성립하면 break;
+    1. 노란색 높이를 1부터 차례로 찾을때까지 1씩 증가시키며 계산
+    2. 노란색이 높이로 나누어지지 않으면 continue (직사각형이라서)
+    3. 노란색의 너비 계산
+    4. 노란색의 높이와 너비를 이용해 갈색 갯수 계산
+    4. 4번의 결과가 파라미터로 받아온 갈색의 총 갯수와 같다면 break;
     높이를 하나씩 높여가면 반복
 
 */
@@ -102,10 +107,13 @@ vector<int> solution(int _brown, int _yellow) {
         //2. 높이로 나누어 떨어지지 않으면 skip
         if ((yellow % yHeight) != 0) continue;
 
-        //나누어 떨어지면 너비 계산
+        //3. 노란색 너비 계산
         int yWidth = static_cast<int>(yellow / yHeight);
 
+        //4. 노란색을 이용하여 갈색의 총 갯수 계산
         int brownTotal = (yWidth + 2 + yHeight) * 2;
+
+        //5. 4번의 결과가 갈색과 파라미터로 들어온 값과 같다면 break; 
         if (brownTotal == brown)
         {
             //찾음
@@ -116,7 +124,7 @@ vector<int> solution(int _brown, int _yellow) {
             
             break;
         }
-    }
+    }//while(true)
 
     return answer;
 }
