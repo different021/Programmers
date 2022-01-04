@@ -65,9 +65,17 @@
     [상하 이동 유불리]
     A ~ M 까지의 문자는 (상) 이동 유리
     N ~ Z 까지의 문자는 (하) 이동 유리
+*/
 
-
+/*
     [좌우 이동 유불리]
+    1. 우 이동 (기본)
+    2. 좌 이동 
+    3. 우 이동 후, 좌 이동
+    4. 좌 이동 후, 우 이동
+
+
+    ABAAB
 
     AAAA    -> KAAN
     AAA     -> CAABN
@@ -143,34 +151,104 @@ void OperationNumberInitialize(map<char, int>& operationNumberPerChar)
     char ch = 'A';
     int numberOfOperation = 0;
 
-    //우이동 문자
+    //위
     for (int i = 0; i < 13; i++)
     {
         operationNumberPerChar.insert( make_pair(ch, i) );
         ch++;
     }
 
-    //좌이동 문자
+    //아래
     for (int i = 13; i > 0; i--)
     {
         operationNumberPerChar.insert(make_pair(ch, i));
         ch++;
     }
 
-    //우이동 문자
+    //소문자
     char smallCh = 'a';
+    //방향키 위
     for (int i = 0; i < 13; i++)
     {
         operationNumberPerChar.insert(make_pair(smallCh, i));
         smallCh++;
     }
 
-    //좌이동 문자
+    //방향키 아래
     for (int i = 13; i > 0; i--)
     {
         operationNumberPerChar.insert(make_pair(smallCh, i));
         smallCh++;
     }
+}
+
+int GetCountOfConsecutivePrefixA(string str)
+{
+    int result = 0;
+    char ch = 'A';
+    size_t half = static_cast<size_t>(str.size()) / 2;
+
+    for (int i = 1; i < half + 1; i++)
+    {
+        if (str[i] == ch)
+        {
+            result++;
+        }
+        else
+        {
+            //연속되지 않으면 의미 없다?
+            break;
+        }
+    }
+
+    return result;
+}
+
+int GetCountOfConsecutiveSuffixA(string str)
+{
+    int nResult = 0;
+    size_t size = str.size();
+    size_t half = static_cast<size_t>(str.size()) / 2;
+
+    for (int i = size - 1; i > half; i--)
+    {
+        if (str[i] == 'A')
+        {
+            nResult++;
+        }
+        else
+        {
+            //연속된 수만 센다.
+            break;
+        }
+    }
+
+    return nResult;
+}
+
+int GetCountContinueA(string str)
+{
+    int nReturn = 0;
+    int temp = 0;
+    char ch = 'A';
+
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if (str[i] != ch)
+        {
+            nReturn = (nReturn > temp) ? nReturn : temp;
+            temp = 0;
+        }
+        else
+        {
+            temp++;
+        }
+        
+    }
+
+    nReturn = (nReturn > temp) ? nReturn : temp;
+
+    return nReturn;
 }
 
 /*
@@ -189,6 +267,7 @@ int solutionGetNumberOfLateralMovement(string input)
     int cntOfPreifxA = 0;
     int cntOfSuffixA = 0;
     int notmoveCount = 0;
+    int midOfContinueA = 0;
 
     bool bMoveLeft = false;    //좌 이동 할까요?
 
@@ -198,37 +277,60 @@ int solutionGetNumberOfLateralMovement(string input)
         goto lb_return;
     }
 
-    //GetCountOfConsecutiveA
-    for (int i = 1; i < half + 1; i++)
+    midOfContinueA = GetCountContinueA(str);
+
+    //GetCountOfConsecutivePrefixA
+    cntOfPreifxA = GetCountOfConsecutivePrefixA(str);
+
+    //GetCountOfConsecutiveSuffixA
+    cntOfSuffixA = GetCountOfConsecutiveSuffixA(str);
+    
+    //함수화?
+    if (midOfContinueA >= half)
     {
-        char ch = str[i];
-        if (ch == 'A')
+        //n은 작은 쪽 값을 취한다.
+        int small, big = 0;
+        int prefix = 0, suffix = 0;
+
+        //앞면에 
+        for (int i = half; i > 0; i--)
+        { 
+            char chA = 'A';
+            if (str[i] != chA)
+            {
+                prefix = i;
+                break;
+            }
+        }
+
+
+        for (int i = half; i < size; i++)
         {
-            cntOfPreifxA++;
+            char chA = 'A';
+            if (str[i] != chA)
+            {
+                suffix = size - i;
+                break;
+            }
+        }
+
+        if (prefix > suffix)
+        {
+            small = suffix;
+            big = prefix;
         }
         else
         {
-            //연속되지 않으면 의미 없다?
-            break;
+            small = prefix;
+            big = suffix;
         }
+
+
+        nResult = 2 * small + big;
+        goto lb_return;
     }
     
-
-    //GetCountOfConsecutiveABack
-    for (int i = size - 1; i > half; i--)
-    {
-        if (str[i] == 'A')
-        {
-            cntOfSuffixA++;
-        }
-        else
-        {
-            //연속된 수만 센다.
-            break;
-        }
-    }
-
-    
+    //함수화?
     if (cntOfPreifxA > cntOfSuffixA)
     {
         //좌이동이 횟수가 더 적다.
@@ -311,14 +413,20 @@ int main()
     //23
     //string name = "JAN";
 
+    //0
     //string name = "AAA";
 
-    // 7 
+    //5 
     string name = "ABAAB";
 
     int result = solution(name);
 
     printf("결과값 : %d \n", result);
+
+
+    //string test = "AKCAAAAAAABVAAA";
+    //int small = GetCountContinueA(test);
+    //printf("연속된 A테스트 : %d", small);
 
     return 0;
 }
