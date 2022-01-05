@@ -30,8 +30,10 @@
 /*
     [solution]
     1. 문자열 -> 숫자 배열 로 변환 
-    2. index ~  end (= size - k) 번째 수 중 가장 큰 찾기
-    3. index = 가장 큰 수의 index
+    2. (start ~  end) 범위에서 가장 큰 수 찾기 
+        max_element(start, end);
+        start = 초기 0, 이후 3에서 업데이트, (end = size - k)
+    3. start = 가장 큰 수의 index
     4. end++
     2 ~ 4 반복 ( (size - k) 번 )
 
@@ -104,6 +106,7 @@ bool solutionInitialize(vector<int>& out, string _number)
 {
     bool bResult = true;
     string& number = _number;
+    out.reserve(number.size());
 
     for (size_t i = 0; i < number.size(); i++)
     {
@@ -128,7 +131,7 @@ bool solutionGetBiggestNumber(string& out, vector<int>& src, int k)
     for (; length > 0; length--)
     {
         vector<int>::iterator it_start = src.begin();
-        vector<int>::iterator it_end = src.end() - length + 1;  //(+ 1?)범위의 마지막 원소는 검사하지 않는다.
+        vector<int>::iterator it_end = src.end() + (1 - length);  //(+ 1?)범위의 마지막 원소는 검사하지 않는다.
         advance(it_start, start);
 
         vector<int>::iterator it_max = max_element(it_start, it_end );
