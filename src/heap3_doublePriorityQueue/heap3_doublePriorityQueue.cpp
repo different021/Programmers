@@ -240,7 +240,7 @@ bool cOperationDeque::initalizeOperationList()
 }
 
 
-//음수값 검사 안됨...
+//음수값 검사 안됨... -> 이제 됨. 
 bool isNumber(const string& str)
 {
     bool bResult = true;
