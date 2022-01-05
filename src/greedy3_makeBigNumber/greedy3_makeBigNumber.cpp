@@ -59,6 +59,8 @@ string solution(string _number, int k) {
     string answer = "";
     string number = _number;
     vector<int> numList;
+    
+    /* 파라미터 검사 (number.size() > k) number 유효성 검사. k 양수 검사 */
 
     //number를 사용하기 쉬운 형태로 가공
     bool bSuccess = solutionInitialize(numList, number);
