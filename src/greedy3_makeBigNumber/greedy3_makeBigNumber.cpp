@@ -29,56 +29,14 @@
 
 /*
     [solution]
-    1. 가능한 조합 모두 생성 후, 소팅
-    2. 작은 수 골라서 제거.
+    1. 문자열 -> 숫자 배열 로 변환 
+    2. index ~  end (= size - k) 번째 수 중 가장 큰 찾기
+    3. index = 가장 큰 수의 index
+    4. end++
+    2 ~ 4 반복 ( (size - k) 번 )
 
-    두 경우 모두 순서를 바꿀 일은 없다.
-    다만 중간의 값이 바뀔 수 있다.
-
-    [방법 1]
-    1. 조합 가능한 모든 수 생성 
-    2. 내림차순 소팅
-
-    단점. 숫자가 커지면 모든 조합 생성에 부하가 있다. 수의 크기 (1 ~ 1000000)
-    자릿수가 큰 관계로 탈락.
-
-
-    [방법 2] -> 채택
-    1. i부터 k번째 까지 수 중 가장 큰 수 찾기
-    2. 가장 큰수 앞의 수 n개 제거
-    3. i 번째 수 확정
-    (i + 1)번째부터 2 ~ 3 반복
-
-    [i번째 자리수 확정 방식]
-    1. 남은 자릿수와 제거할 숫자가 같다면 몽땅 제거.
-    2. i번째 수부터 d번재 수 중 가장 큰 수를 찾는다.
-    3. 가장 큰 수 앞의 앞의 숫자들을 제거
-    
-    
-    nubmer = 1942, k = 2
-
-    string의 i번째 부터 k 번째 중 최대값의 인덱스 n 찾기 
-    
-    
-    string 
-    
-    ("1942", 2) 중 0부터 1까지 중 최대값 9 인덱스 1
-    ("942, 1)  0번 인덱스 1개 제거
-    0번 인덱스 확정,
-
-    ("942", 1) 1번 인덱스 부터 
-
-
-    
-    <선행 작업>
-    string을 하나하나 int로 변환
-    중간 삭제가 용이한 자료구조에 넣는다.
-    리스트가 용이해 보이지만
-    리스트는 인덱스 접근에 불편한 점이 있다.
-    인덱스 접근에 용이하도록 벡터 사용
-
-    <후행 작업>
-    숫자들을 문자열로 바꾸어 리턴.
+    k가 제거할 문자의 갯수 이므로. 
+    size - k 는 표시할 문자 수이다.
 */
 
 
@@ -95,23 +53,21 @@ string solution(string _number, int k);
 bool solutionInitialize(vector<int>& out, string _number);
 bool solutionGetBiggestNumber(string& out, vector<int>& src, int k);
 
-void Trim(int index, vector<int>& out, int k);
-
-
 string solution(string _number, int k) {
     string answer = "";
     string number = _number;
     vector<int> numList;
-    int num = k;        //제거할 갯수
-
-    //파라미터 검증 루틴 추가.
-    /* 파라미터 검증 */
 
     //number를 사용하기 쉬운 형태로 가공
     bool bSuccess = solutionInitialize(numList, number);
     if (bSuccess == false) { /*초기화 실패 코드 문자열에 숫자가 아닌 수가 섞여 있는 경우를 강력 의심*/ };
 
-    bSuccess = solutionGetBiggestNumber(answer, numList, num);
+    bSuccess = solutionGetBiggestNumber(answer, numList, k);
+
+    if (answer.compare("") == 0)
+    {
+        answer = "0";
+    }
 
     return answer;
 }
@@ -167,20 +123,17 @@ bool solutionGetBiggestNumber(string& out, vector<int>& src, int k)
     bool bResult = false;
     int length = src.size() - k;
     int start = 0;
-    int end = src.size() - k - 1;
     string result = "";
 
     for (; length > 0; length--)
     {
         vector<int>::iterator it_start = src.begin();
-        vector<int>::iterator it_end = src.begin();
+        vector<int>::iterator it_end = src.end() - length + 1;  //(+ 1?)범위의 마지막 원소는 검사하지 않는다.
         advance(it_start, start);
-        advance(it_end, end);
 
-        vector<int>::iterator it_max = max_element(it_start, it_end + 1);
-        int maxIndex = max_element(it_start, it_end + 1) - src.begin();
+        vector<int>::iterator it_max = max_element(it_start, it_end );
+        int maxIndex = max_element(it_start, it_end ) - src.begin();
         start = maxIndex + 1;
-        end++;
         int value = *it_max;
         result += to_string(value);
     }
@@ -194,17 +147,19 @@ bool solutionGetBiggestNumber(string& out, vector<int>& src, int k)
 int main()
 {
     ////return 94
-    string number = "1924";
-    int k = 2;
+    /*string number = "1924";
+    int k = 2;*/
 
     ////"3234"
     /*string number = "1231234";
     int k = 3;*/
 
-    ////"4567"
-    /*string number = "1234567";
-    int k = 3;*/
+    //////"4567"
+    //string number = "1234567";
+    //int k = 3;
 
+    string number = "2190999999";
+    int k = 2;
 
 
     string result = solution(number, k);
