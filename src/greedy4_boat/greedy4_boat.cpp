@@ -48,6 +48,7 @@
     #define BOAT_LIMIT_MIN 40
     #define BOAT_LIMIT_MAX 240
 
+    int GetSingleBoatPeople(deque<int>& out, vector<int>& people, int threshold);
 
     int solution(vector<int> people, int limit) {
         int answer = 0;
@@ -62,17 +63,8 @@
         sort(people.begin(), people.end());
     
         //2. 혼자 타야하는 사람들 과 같이 탈 수도 있는 사람들 분류
-        for (auto& it : people)
-        {
-            int weight = it;
-            if (weight > weight_Threshold) break;
-
-            left.push_front(it);  //무거운 사람부터 검사할 거라 앞으로 넣는다.
-        }
-
-        //1인당 1개의 보트가 필요한 사람들 (수치적으로 확정적인 사람들)
-        boatInSingle = people.size() - left.size();
-
+        boatInSingle = GetSingleBoatPeople(left, people, weight_Threshold);
+        
 
         //3. 무거운 사람부터 
         //for (deque<int>::iterator it = left.begin(); it != left.end();)
@@ -109,7 +101,24 @@
     }
 
 
+int GetSingleBoatPeople(deque<int>& out, vector<int>& people, int threshold)
+{
+    int countBoatInSingle = 0;
 
+    for (auto& it : people)
+    {
+        int weight = it;
+        if (weight > threshold) break;
+
+        out.push_front(it);  //무거운 사람부터 검사할 거라 앞으로 넣는다.
+    }
+
+    //1인당 1개의 보트가 필요한 사람들 (수치적으로 확정적인 사람들)
+    countBoatInSingle = people.size() - out.size();
+
+    return countBoatInSingle;
+
+}
 
 
 

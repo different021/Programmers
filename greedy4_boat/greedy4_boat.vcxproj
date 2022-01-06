@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ae767f5d-badf-4db6-95de-5f2038b3ccdd}</ProjectGuid>
-    <RootNamespace>greedy4boatPeople</RootNamespace>
+    <ProjectGuid>{dfb1bdb3-3607-4f07-9996-627993806ad1}</ProjectGuid>
+    <RootNamespace>greedy4boat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\greedy4_boatPeople\greedy4_boatPeople.cpp" />
+    <ClCompile Include="..\src\greedy4_boat\greedy4_boat.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

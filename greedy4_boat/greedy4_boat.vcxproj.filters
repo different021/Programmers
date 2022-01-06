@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\greedy4_boatPeople\greedy4_boatPeople.cpp">
+    <ClCompile Include="..\src\greedy4_boat\greedy4_boat.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
