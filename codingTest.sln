@@ -43,6 +43,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "greedy3_makeBigNumber", "gr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "greedy4_boat", "greedy4_boat\greedy4_boat.vcxproj", "{DFB1BDB3-3607-4F07-9996-627993806AD1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "greedy5_island", "greedy5_island\greedy5_island.vcxproj", "{ACC954E7-4127-47A3-9962-AEF5794B162B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -211,6 +213,14 @@ Global
 		{DFB1BDB3-3607-4F07-9996-627993806AD1}.Release|x64.Build.0 = Release|x64
 		{DFB1BDB3-3607-4F07-9996-627993806AD1}.Release|x86.ActiveCfg = Release|Win32
 		{DFB1BDB3-3607-4F07-9996-627993806AD1}.Release|x86.Build.0 = Release|Win32
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Debug|x64.ActiveCfg = Debug|x64
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Debug|x64.Build.0 = Debug|x64
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Debug|x86.ActiveCfg = Debug|Win32
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Debug|x86.Build.0 = Debug|Win32
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Release|x64.ActiveCfg = Release|x64
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Release|x64.Build.0 = Release|x64
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Release|x86.ActiveCfg = Release|Win32
+		{ACC954E7-4127-47A3-9962-AEF5794B162B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
