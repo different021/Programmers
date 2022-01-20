@@ -24,130 +24,138 @@
     [가능한 행동]
     1. 사칙 연산
     3. 연속 숫자
-    2. 괄호 (열기 닫기 순서 쌍) - 사칙연산에 스택에 포함되지 않는다.
+    2. 괄호 (열기 닫기 순서 쌍) - 사칙연산에 스택에 포함되지 않는다. -> 신경 쓸 필요없다.
 */
 
 /*
-    1. 최소 사용 값 확신을 위한 너비 우선 탐색
-    2. 
-    연산에 대한 enum 값 지정.
-    enum을 활용한 state값 생성
-    클래스에서 상태 생성
-    상태를 statePool에서 검색
-    새로운 상태는 que.push
-    
-    
+    생성 가능한 값을 set에 저장
+    1개로 생성 가능한 숫자 생성 -> s(1)
+    2개로 생성 가능한 숫자 집합 생성 -> s(2) = s(1) + s(1) 
+    3개로 생성 가능한 숫자 집합 생성 -> s(3) = s(1) + s(2) , s(2) + s(1)
+    4개로 생성 가능한 숫자 집합 생성 -> s(4) = s(1) + s(3), s(2) + s(2), s(3) + s(1)
+    ...
+    7까지 반복
+
+    각 단계 생성 후, target이 존재하는지 검사, 없으면 다음 단계 생성
+
 */
 
 /*
-    1. 너비우선 탐색
-    2. 새로운 상태 생성 후 스테이트풀에 넣기.
-    
-*/
+    [operator]
+    1. +
+    2. -
+    3. *
+    4. /
+
+    5. 연속된 숫자(별도 추가)
+ */
+
 
 
 #include <string>
 #include <vector>
-#include <unordered_map>
-#include <queue>
+#include <set>
 
 using namespace std;
 
-struct cExpression
-{
-public:
-    int id; //for test
-    vector<string> operationArray;
+#define MAX_LAYER 8
 
+int solution(int N, int number) {
+    int answer = -1;
+    int basicNumber = N;
+    int target = number;
+    int num = basicNumber;
 
-public:
-    cExpression();
-    cExpression(const cExpression&);
-    string GetState();
-    void CopyTo(cExpression& out);
-    bool AddOperation(const string& op);
-};
-
-cExpression::cExpression()
-{
-    //Nothing.
-}
-
-cExpression::cExpression(const cExpression& src)
-{
-    //멤버 복사. 
-    //문제 상 8개를 넘지 않을거라 하여 복사하지만 많아지면 성능에 문제 생길지도.
-    operationArray.assign(src.operationArray.begin(), src.operationArray.end());
-    //operationArray = src.operationArray;
-}
-
-string cExpression::GetState()
-{
-    string result = "";
-    for (auto& it : operationArray)
+    vector<set<int>> pool;
+    pool.reserve(MAX_LAYER);
+    
+    for (int i = 0; i < MAX_LAYER; i++)
     {
-        result + it;
+        set<int> temp;
+        pool.push_back(temp);
+    }
+    
+    //1개로 생성할 수 있는 수 생성
+    pool[0].insert(basicNumber);
+
+    //타겟 인지 확인
+    if (pool[0].find(target) != pool[0].end())
+    {
+        //find
+        answer = 1;
+        goto lb_return;
     }
 
-    return result;
-}
+    //2개 이상으로 생성하는 로직 
+    for (int i = 1; i < MAX_LAYER; i++)
+    {
+        //자릿수 추가
+        num = num * 10 + basicNumber;
+        pool[i].insert(num);
 
-void cExpression::CopyTo(cExpression& out)
-{
-    out = *this;
-}
+        for (int j = 0; j < i; j++)
+        {
+            for (set<int>::iterator it = pool[j].begin(); it != pool[j].end(); it++)
+            {
+                int num1 = *it;
+                for (set<int>::iterator it_opp = pool[i - (j + 1)].begin(); it_opp != pool[i - (j + 1)].end(); it_opp++)
+                {
+                    int num2 = *it_opp;
 
-//복사 생성자를 만들어 주었으니, 객체를 복사 생성하여, 새로운 오퍼레이터를 추가하는 방식으로 새로로운 상태를 생성할 것.
-bool cExpression::AddOperation(const string& op)
-{
-    bool bResult = false;
+                    // + 연산
+                    int newNum = num1 + num2;
+                    pool[i].insert(newNum);
 
-    operationArray.push_back(op);
+                    // - 연산
+                    newNum = num1 - num2;
+                    pool[i].insert(newNum);
 
-    bResult = true;
-    return bResult;
-}
+                    // * 연산
+                    newNum = num1 * num2;
+                    pool[i].insert(newNum);
 
+                    // / 연산
+                    if (num2 != 0)
+                    {
+                        int div = num1 / num2;
+                        pool[i].insert(div);
+                    }
+                    
+                }
 
-//operationPool - 우선 순위가 저장된 문자열
-void operationInitailze(unordered_map<string, int>& operationPool);
+            }
+            
+        }
 
-int solution(int _N, int _number) {
-    int answer = -1;
-    int N = _N;
-    int number = _number;
-    unordered_map<string, int> operations;
-    unordered_map<string, cExpression> statePool;
-    cExpression exp;
-    cExpression test;
+        //find target
+        if (pool[i].find(target) != pool[i].end())
+        {
+            //find
+            answer = i + 1;
+            break;
+        }
+    }
 
-    //연산자 우선 순위 설정
-    operationInitailze(operations);
-
-    
-
-
+lb_return:
     return answer;
 }
-
-void operationInitailze(unordered_map<string, int>& operationPool)
-{
-    operationPool.insert(make_pair("+", 0));
-    operationPool.insert(make_pair("-", 0));
-    operationPool.insert(make_pair("*", 1));
-    operationPool.insert(make_pair("/", 1));
-    operationPool.insert(make_pair("_", 2));
-}
-
 
 
 int main()
 {
+    ////return 4
+    //int N = 5;
+    //int number = 12;
+
+    //-1
     int N = 5;
-    int number = 12;
+    int number = 5555555;
+
     int result = solution(N, number);
-    
-    printf("%d\n", result);
+
+    printf("input : %d\n", N);
+    printf("target: %d\n", number);
+    printf("최소값: %d\n", result);
 
     return 0;
 }

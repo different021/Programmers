@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\DynamicProgramming1_N\DynamicProgramming1_N.cpp" />
+    <ClCompile Include="..\src\DynamicProgramming1_N\token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
