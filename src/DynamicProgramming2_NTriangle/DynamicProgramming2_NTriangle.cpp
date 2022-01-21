@@ -19,13 +19,26 @@
     //멀티맵을 사용하는 이유?
     //1. 맵 -> <index, value> 구조로 저장하기 위함. 다음 층에서 인덱스를 바탕으로 값 생성
     //2. 멀티 맵 -> index하나가 제시되념 index, index+1 두가지 경우가 생성된다.
+
+    -> 예상대로 성능 똥망.
+    다른 방법 사용할 것.
 */
 
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 using namespace std;
+
+struct compareValue
+{
+    template <typename T>
+    bool operator()(const T& pLhs, const T& pRhs)
+    {
+        return pLhs.second < pRhs.second;
+    }
+};
 
 #define MAX_LAYER 500;
 
@@ -50,7 +63,7 @@ int solution(vector<vector<int>> triangle) {
 
 
     //삽입한 값을 바탕으로 새로운 값 생성
-    int max = 0;
+    //int max = 0;
     for (size_t layer = 1; layer < numOfLayer; layer++)
     {
         for (auto& it : pool[layer - 1])
@@ -65,13 +78,14 @@ int solution(vector<vector<int>> triangle) {
             int newValue2 = value + tower[layer][nextIndex];
             pool[layer].insert(make_pair(nextIndex, newValue2));
 
-            max = (max > newValue1) ? max : newValue1;
-            max = (max > newValue2) ? max : newValue2;
+            //최대값 갱신
+            //max = (max > newValue1) ? max : newValue1;
+            //max = (max > newValue2) ? max : newValue2;
         }
     }
 
+    int max = max_element(pool[numOfLayer-1].begin(), pool[numOfLayer-1].end(), compareValue())->second;
     answer = max;
-
 
     return answer;
 }
