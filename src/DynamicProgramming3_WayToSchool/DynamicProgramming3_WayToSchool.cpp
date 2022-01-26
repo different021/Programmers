@@ -45,7 +45,7 @@
 
     [추가]
     -행렬에 들어간 값이 모두 모듈러 연산이 되어 있어야 한다.
-    -사방이 막힌 경우가 존재한다.
+    -사방이 막힌 경우가 존재한다. -> return 0
 */
 
 #include <string>
@@ -65,6 +65,7 @@ struct stWayToSchool
     int* pDatas;
 
 };
+
 
 bool WayToSchoolCreate(stWayToSchool* &pDest, int row, int col);                    //메모리 할당 및 초기화
 void WayToShcoolDelete(stWayToSchool* &pDest);                                      //할당된 메모리 제거

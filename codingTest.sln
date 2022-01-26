@@ -53,6 +53,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicProgramming2_NTriang
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicProgramming3_WayToSchool", "DynamicProgramming3_WayToSchool\DynamicProgramming3_WayToSchool.vcxproj", "{9C5CB36D-D51E-481E-B989-F1F67EFEF0E6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicProgramming4_BigTheft", "DynamicProgramming4_BigTheft\DynamicProgramming4_BigTheft.vcxproj", "{354B352A-1D20-4834-8A79-AFA54D21CEBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -261,6 +263,14 @@ Global
 		{9C5CB36D-D51E-481E-B989-F1F67EFEF0E6}.Release|x64.Build.0 = Release|x64
 		{9C5CB36D-D51E-481E-B989-F1F67EFEF0E6}.Release|x86.ActiveCfg = Release|Win32
 		{9C5CB36D-D51E-481E-B989-F1F67EFEF0E6}.Release|x86.Build.0 = Release|Win32
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Debug|x64.ActiveCfg = Debug|x64
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Debug|x64.Build.0 = Debug|x64
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Debug|x86.ActiveCfg = Debug|Win32
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Debug|x86.Build.0 = Debug|Win32
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Release|x64.ActiveCfg = Release|x64
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Release|x64.Build.0 = Release|x64
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Release|x86.ActiveCfg = Release|Win32
+		{354B352A-1D20-4834-8A79-AFA54D21CEBE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
