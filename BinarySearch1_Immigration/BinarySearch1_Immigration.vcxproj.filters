@@ -18,5 +18,8 @@
     <ClCompile Include="..\src\binarySearch1_Immigration\binarySearch1_Immigration.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\binarySearch1_Immigration\binarySearch1_Immigration_LowEfficient.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
