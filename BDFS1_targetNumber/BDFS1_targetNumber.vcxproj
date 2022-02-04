@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4ef698c4-3988-40c2-a801-ff519f0b0264}</ProjectGuid>
-    <RootNamespace>BinarySearch2steppingStone</RootNamespace>
+    <ProjectGuid>{71f4f2ca-653f-44b6-a696-c6e2de125946}</ProjectGuid>
+    <RootNamespace>BDFS1targetNumber</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,11 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\binarySearch2_steppingStone\binarySearch2_steppingStone.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\src\binarySearch2_steppingStone\binarySearch2_steppingStone2.cpp" />
+    <ClCompile Include="..\src\BDFS1_targetNumber\BDFS1_targetNumber.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

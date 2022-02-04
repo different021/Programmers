@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\binarySearch2_steppingStone\binarySearch2_steppingStone.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\binarySearch2_steppingStone\binarySearch2_steppingStone2.cpp">
+    <ClCompile Include="..\src\BDFS1_targetNumber\BDFS1_targetNumber.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
